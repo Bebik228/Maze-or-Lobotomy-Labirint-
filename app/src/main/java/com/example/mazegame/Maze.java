@@ -1,4 +1,3 @@
-// Maze.java
 package com.example.mazegame;
 
 import java.util.Random;
