@@ -25,9 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private int mazeWidth = 16;
     private Paint paint;
     private Player player;
-    /* access modifiers changed from: private */
     public int screenHeight;
-    /* access modifiers changed from: private */
     public int screenWidth;
     private MediaPlayer walkSound;
 
@@ -97,10 +95,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 }
             }
 
-            // ИЗМЕНЕНО: Проверяем, достиг ли игрок выхода, используя новый метод
             if (maze.isPlayerAtExit(player.x, player.y)) {
-                isRunning = false; // Останавливаем игровой цикл
-                mainActivity.showEscapeDialog(); // Вызываем метод для отображения диалога
+                isRunning = false;
+                mainActivity.showEscapeDialog();
             }
         }
         Log.d("GameView", "Game thread ended");
@@ -115,10 +112,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         if (this.screenWidth != 0) {
             int rayCount = this.screenWidth;
             for (int i = 0; i < rayCount; i++) {
-                // Измененный вызов castSingleRay для получения цвета
                 int wallColor = castSingleRay(this.player.x, this.player.y, normalizeAngle((this.player.angle - (1.0471975511965976d / 2.0d)) + ((((double) i) * 1.0471975511965976d) / ((double) rayCount))), i, canvas);
-                if (wallColor != 0) { // Если луч столкнулся с чем-то
-                    int wallHeight = (int) (((double) this.screenHeight) / (castSingleRay(this.player.x, this.player.y, normalizeAngle((this.player.angle - (1.0471975511965976d / 2.0d)) + ((((double) i) * 1.0471975511965976d) / ((double) rayCount))), true))); // Передаем true для получения только расстояния
+                if (wallColor != 0) {
+                    int wallHeight = (int) (((double) this.screenHeight) / (castSingleRay(this.player.x, this.player.y, normalizeAngle((this.player.angle - (1.0471975511965976d / 2.0d)) + ((((double) i) * 1.0471975511965976d) / ((double) rayCount))), true)));
                     int wallTop = (this.screenHeight / 2) - (wallHeight / 2);
                     this.paint.setColor(wallColor);
                     canvas.drawLine((float) i, (float) wallTop, (float) i, (float) (wallTop + wallHeight), this.paint);
@@ -127,7 +123,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
-    // Измененный метод castSingleRay для возврата цвета
     private int castSingleRay(double startX, double startY, double angle, int screenX, Canvas canvas) {
         double dx = Math.cos(angle);
         double dy = Math.sin(angle);
@@ -140,20 +135,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             int gridY = (int) rayY;
 
             if (gridX >= 0 && gridX < maze.getWidth() && gridY >= 0 && gridY < maze.getHeight()) {
-                if (this.maze.getCell(gridX, gridY) == 1) { // Это стена
+                if (this.maze.getCell(gridX, gridY) == 1) {
                     double distance = Math.sqrt(Math.pow(rayX - startX, 2.0d) + Math.pow(rayY - startY, 2.0d));
                     int brightness = (int) Math.min(255.0d, 1000.0d / distance);
                     return Color.rgb(brightness, brightness, brightness);
-                } else if (this.maze.isPlayerAtExit(rayX, rayY)) { // ИЗМЕНЕНО: Используем isPlayerAtExit
-                    // Если это выход, вернуть зеленый цвет
+                } else if (this.maze.isPlayerAtExit(rayX, rayY)) {
                     return Color.GREEN;
                 }
             }
         }
-        return 0; // Ничего не найдено, не рисовать
+        return 0;
     }
 
-    // Добавленный метод castSingleRay для получения только расстояния
     private double castSingleRay(double startX, double startY, double angle, boolean returnDistanceOnly) {
         double dx = Math.cos(angle);
         double dy = Math.sin(angle);
@@ -166,7 +159,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             int gridY = (int) rayY;
 
             if (gridX >= 0 && gridX < maze.getWidth() && gridY >= 0 && gridY < maze.getHeight()) {
-                if (this.maze.getCell(gridX, gridY) == 1 || this.maze.isPlayerAtExit(rayX, rayY)) { // ИЗМЕНЕНО: Используем isPlayerAtExit
+                if (this.maze.getCell(gridX, gridY) == 1 || this.maze.isPlayerAtExit(rayX, rayY)) {
                     return Math.sqrt(Math.pow(rayX - startX, 2.0d) + Math.pow(rayY - startY, 2.0d));
                 }
             }
@@ -197,7 +190,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             this.player.rotate(0.1d);
             return true;
         } else {
-            // ИЗМЕНЕНО: Проверяем, что игрок не движется в стену или за пределы лабиринта
             double newX = this.player.x + (Math.cos(this.player.angle) * 0.2d);
             double newY = this.player.y + (Math.sin(this.player.angle) * 0.2d);
             int gridX = (int) newX;
