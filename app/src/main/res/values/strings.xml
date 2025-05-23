@@ -1,0 +1,15 @@
+<resources>
+    <string name="forward_button_text">↑</string>
+    <string name="left_button_text">←</string>
+    <string name="right_button_text">→</string>
+    <string name="backward_button_text">↓</string>
+    <string name="app_name">MazeGame</string>
+    <string name="up">Up</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="down">Down</string>
+    <string name="Up">Up</string>
+    <string name="Left">Left</string>
+    <string name="Right">Right</string>
+    <string name="Down">Down</string>
+</resources>
