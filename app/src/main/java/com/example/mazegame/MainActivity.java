@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.view.View;
-import android.app.AlertDialog; // Импорт для AlertDialog
-import android.content.DialogInterface; // Импорт для DialogInterface
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import com.example.maze.R;
 
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnRotate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Изменяем ориентацию экрана
                 if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 } else {
@@ -119,22 +118,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Отображает диалоговое окно "Вы сбежали!".
-     * Этот метод вызывается из GameView, когда игрок достигает выхода.
-     */
     public void showEscapeDialog() {
-        // Убедитесь, что диалог отображается в основном потоке UI
         runOnUiThread(() -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Вы сбежали!") // Сообщение, которое будет показано
-                    .setCancelable(false) // Предотвращает закрытие диалога кнопкой "Назад"
+            builder.setMessage("Вы сбежали!")
+                    .setCancelable(false)
                     .setPositiveButton("OK", (dialog, id) -> {
-                        // Действие при нажатии кнопки "OK", например, закрытие активности
-                        finish(); // Закрывает текущую активность, завершая игру
+                        finish();
                     });
             AlertDialog alert = builder.create();
-            alert.show(); // Отображает диалоговое окно
+            alert.show();
         });
     }
 }
